@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f7fbfa;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  /* Brand green (aligned with reference site) */
+  --accent: #05C060;
+  --accent-rgb: 5, 192, 96;
+  /* BharatByte brand heading color (from logo) */
+  --brand-heading: #d9574f;
+}
+
+/* Ensure scrollbar is on the right: enforce LTR and disable horizontal scroll at the root */
+html, body {
+  direction: ltr;
+  overflow-x: hidden;
+}
+/* Force main vertical scrollbar to render on the right */
+html { overflow-y: scroll; }
+
+html, body, #root { height: 100%; }
+body {
+  /* Soft abstract bluish/teal background similar to the reference */
+  background:
+    radial-gradient(60% 40% at 10% 15%, rgba(14,165,233,0.14), transparent 65%), /* cyan top-left */
+    radial-gradient(55% 35% at 85% 25%, rgba(59,130,246,0.14), transparent 65%), /* blue upper-right */
+    radial-gradient(50% 40% at 20% 85%, rgba(20,184,166,0.10), transparent 70%), /* teal bottom-left */
+    linear-gradient(115deg, rgba(14,165,233,0.06), rgba(255,255,255,0) 35%),    /* soft diagonal streak */
+    linear-gradient(295deg, rgba(59,130,246,0.05), rgba(255,255,255,0) 40%),    /* soft opposing streak */
+    var(--bg);
+  color: var(--text);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* reusable shadows */
+.card { @apply bg-white border border-slate-200 rounded-2xl shadow-lg; }
+
+.section {
+  @apply py-16 md:py-28;
+}
+
+/* heading underline accent (disabled per request) */
+.h-underline::after {
+  content: none; /* remove decorative underline */
+  display: none;
+}
+
+/* Headings: no hover effects (restored to previous behaviour) */
+.section h1,
+.section h2,
+.section h3 { transition: none; }
+
+/* Utility: force black heading color for specific headings (higher specificity to beat .section h1/h2/h3) */
+.section .heading-black,
+h1.heading-black,
+h2.heading-black,
+h3.heading-black { color: #0f172a !important; }
+
+/* Apply BharatByte brand color to all section headings */
+.section h1,
+.section h2,
+.section h3 { color: var(--brand-heading) !important; }
+
+/* 3D hover ONLY for headings outside the About section */
+.section:not(#about) h1,
+.section:not(#about) h2,
+.section:not(#about) h3 {
+  position: relative;
+  display: inline-block;
+  transition: transform 180ms ease, filter 220ms ease, box-shadow 220ms ease;
+}
+.section:not(#about) h1::before,
+.section:not(#about) h2::before,
+.section:not(#about) h3::before {
+  content: "";
+  position: absolute;
+  inset: -10px -14px;
+  border-radius: 18px;
+  /* Brand-tinted (light red/pink) layered glow */
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(217, 87, 79, 0.22), transparent 60%),
+    radial-gradient(120% 160% at 100% 0%, rgba(236, 106, 94, 0.20), transparent 60%),
+    radial-gradient(140% 160% at 50% 100%, rgba(255, 204, 199, 0.26), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.5));
+  filter: blur(10px);
+  transform: perspective(800px) translateY(8px) scale(0.98);
+  opacity: 0;
+  transition: opacity 220ms ease, transform 220ms ease, filter 220ms ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.section:not(#about) h1:hover,
+.section:not(#about) h2:hover,
+.section:not(#about) h3:hover {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,0.12));
+}
+.section:not(#about) h1:hover::before,
+.section:not(#about) h2:hover::before,
+.section:not(#about) h3:hover::before {
+  opacity: 1;
+  filter: blur(16px);
+  transform: perspective(800px) translateY(0) scale(1);
+}
+
+/* brand helpers */
+.brand-text { color: var(--accent); }
+.brand-border { border-color: var(--accent); }
+.brand-soft { background-color: rgba(var(--accent-rgb), 0.08); }
+/* hover helpers */
+.hover-brand-text:hover { color: var(--accent); }
+.hover-brand-bg:hover { background-color: rgba(var(--accent-rgb), 0.85); }
+.hover-brand-border:hover { border-color: var(--accent); }
+/* opacity variants */
+.brand-bg-90 { background-color: rgba(var(--accent-rgb), 0.9); }
+.brand-bg-70 { background-color: rgba(var(--accent-rgb), 0.7); }
+.brand-bg-60 { background-color: rgba(var(--accent-rgb), 0.6); }
+.brand-border-60 { border-color: rgba(var(--accent-rgb), 0.6); }
+.brand-border-40 { border-color: rgba(var(--accent-rgb), 0.4); }
+
+/* removed body::before overlay; background is now applied directly to body */
+
+/* hero-specific bluish swirl background */
+.hero-bg { position: relative; }
+.hero-bg::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(50% 60% at 80% 20%, rgba(14,165,233,0.18), rgba(14,165,233,0.00) 60%), /* cyan top-right */
+    radial-gradient(40% 50% at 95% 70%, rgba(59,130,246,0.12), rgba(59,130,246,0.00) 60%), /* blue bottom-right */
+    radial-gradient(35% 45% at 15% 85%, rgba(20,184,166,0.08), rgba(20,184,166,0.00) 60%), /* teal bottom-left */
+    linear-gradient(180deg, rgba(255,255,255,0.40), rgba(255,255,255,0.10));
+  filter: blur(0.5px);
+}
+
+/* decorative bursts used in Thematic areas */
+.burst { width: 72px; height: 72px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08)); }
+.burst::before {
+  content: "";
+  display: block; width: 100%; height: 100%; border-radius: 50%;
+  background: conic-gradient(var(--burst-color) 0 20deg, transparent 20deg 40deg, var(--burst-color) 40deg 60deg, transparent 60deg 80deg, var(--burst-color) 80deg 100deg, transparent 100deg 120deg, var(--burst-color) 120deg 140deg, transparent 140deg 160deg, var(--burst-color) 160deg 180deg, transparent 180deg 200deg, var(--burst-color) 200deg 220deg, transparent 220deg 240deg, var(--burst-color) 240deg 260deg, transparent 260deg 280deg, var(--burst-color) 280deg 300deg, transparent 300deg 320deg, var(--burst-color) 320deg 340deg, transparent 340deg 360deg);
+}
+.burst-orange { --burst-color: #f59e0b; }
+.burst-red    { --burst-color: #ef4444; }
+.burst-blue   { --burst-color: #3b82f6; }
+.burst-green  { --burst-color: #22c55e; }
+.burst-purple { --burst-color: #a855f7; }
+
+/* base font stack */
+html {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* --- Subtle light background for the whole page --- */
+body {
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(5, 192, 96, 0.06), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(59, 130, 246, 0.06), transparent 55%),
+    radial-gradient(700px 400px at 50% 120%, rgba(245, 158, 11, 0.06), transparent 60%),
+    linear-gradient(180deg, #f8fffb 0%, #f6fef9 30%, #f3fbf7 100%);
+  background-attachment: fixed;
+}
+
+/* Show scrollbar only on the main page; hide nested element scrollbars (but NOT html/body) */
+/* Firefox */
+*:not(html):not(body) { scrollbar-width: none; }
+/* WebKit */
+*:not(html):not(body)::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+/* Keep html/body scrollbar visible and styled */
+html, body { scrollbar-width: auto; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 12px; }
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.45); border-radius: 8px; }
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { background: rgba(0,0,0,0.08); }
+
+/* Global horizontal overlay across the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    /* left-right soft vignette in brandish blues */
+    linear-gradient(90deg, rgba(14,165,233,0.08) 0%, rgba(255,255,255,0) 25%, rgba(255,255,255,0) 75%, rgba(59,130,246,0.08) 100%),
+    /* subtle horizontal banding for depth */
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0 2px, rgba(0,0,0,0) 2px 8px);
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+}
+.section-animated-bg {
+  position: relative;
+  overflow: visible; /* allow content to render fully */
+  isolation: isolate; /* stack backgrounds cleanly */
+  z-index: 1; /* sit above body::after overlay */
+}
+
+/* 3D layered gradient surface */
+.section-animated-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    /* soft top light */
+    radial-gradient(1200px 500px at 50% -10%, rgba(255,255,255,0.80), transparent 60%),
+    /* warm light-red highlight blobs */
+    radial-gradient(650px 460px at 20% 30%, rgba(217, 87, 79, 0.18), transparent 65%),
+    radial-gradient(700px 520px at 80% 35%, rgba(236, 106, 94, 0.16), transparent 65%),
+    /* soft pink base tint */
+    radial-gradient(900px 560px at 50% 115%, rgba(255, 204, 199, 0.22), transparent 72%),
+    /* animated base gradient in light reds */
+    linear-gradient(60deg, hsl(6 80% 98%), hsl(8 80% 96%), hsl(6 80% 94%), hsl(8 80% 96%), hsl(6 80% 98%));
+  background-size: 300% 300%;
+  animation: moveGradient 16s ease-in-out infinite;
+  box-shadow: inset 0 40px 80px rgba(0,0,0,0.05), inset 0 -30px 60px rgba(0,0,0,0.04);
+  filter: saturate(1.03);
+}
+
+/* very subtle noise and vignette to add perceived depth */
+.section-animated-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 60% at 50% 100%, rgba(0,0,0,0.05), transparent 60%),
+    radial-gradient(60% 40% at 0% 0%, rgba(0,0,0,0.04), transparent 55%),
+    radial-gradient(60% 40% at 100% 0%, rgba(0,0,0,0.04), transparent 55%);
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+/* The animation keyframes that move the background */
+@keyframes moveGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+*{
+  overflow-x: hidden;
+}
